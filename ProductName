@@ -1,1 +1,56 @@
 
+using System;
+using System.Collections.Generic;
+
+namespace Test_Tasks
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {            
+            // "{name} {price} {quantity}".
+            //"{productName} -> {totalPrice}"
+
+            Dictionary<string, double> pricesByProductName = new Dictionary<string, double>();
+            Dictionary<string, int> quantityByProductName = new Dictionary<string, int>();
+
+            while (true)
+            {
+                string line = Console.ReadLine();
+
+                if (line == "buy")
+                {
+                    //toDo
+                    foreach (var kvp in pricesByProductName)
+                    {
+                        // Console.WriteLine($"{kvp.Key} -> {kvp.Value}");
+                        string productName = kvp.Key;
+                        double prodPrice = kvp.Value;
+                        int prodQuantity = quantityByProductName[productName];
+                        Console.WriteLine($"{productName} -> {prodPrice * prodQuantity:F2}");
+                    }
+                    
+                    break;
+                }
+
+                string[] parts = line
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                string product = parts[0];
+                double price = double.Parse(parts[1]);
+                int quantity = int.Parse(parts[2]);
+
+                if (pricesByProductName.ContainsKey(product))
+                {
+                    pricesByProductName[product] = price;
+                    quantityByProductName[product] += quantity;
+                }
+                else //product not existing and add it
+                {
+                    pricesByProductName.Add(product, price);
+                    quantityByProductName.Add(product, quantity);
+                }
+            }
+        }
+    }
+}
